@@ -1,53 +1,34 @@
-import { View, Text, StyleSheet } from "react-native"
+import { View, StyleSheet } from "react-native"
+import Header from "../components/Header"
+import MemoListItem from "../components/MemoListItem"
+import CircleButton from "../components/CircleButton"
 
 const Index = () => {
     return (
         <View style={styles.container}>
+            <Header />
             <View>
-                <View>
-                    <Text>Memo App</Text>
-                    <Text>ログアウト</Text>
-                </View>
+                <MemoListItem />
+                <MemoListItem />
+                <MemoListItem />
             </View>
-            <View>
-                <View>
-                    <Text>買い物リスト</Text>
-                    <Text>2025年2月17日</Text>
-                </View>
-                <View>
-                    <Text>X</Text>
-                </View>
-            </View>
-            <View>
-                <View>
-                    <Text>買い物リスト</Text>
-                    <Text>2025年2月17日</Text>
-                </View>
-                <View>
-                    <Text>X</Text>
-                </View>
-            </View>
-            <View>
-                <View>
-                    <Text>買い物リスト</Text>
-                    <Text>2025年2月17日</Text>
-                </View>
-                <View>
-                    <Text>X</Text>
-                </View>
-            </View>
-            <View>
-                <Text>+</Text>
-            </View>
+            <CircleButton>+</CircleButton>
         </View>
     )
 }
-
+// スタイルの定義
+// React Native ではスタイルは StyleSheet.create() で定義する
+// StyleSheet.create() はオブジェクトを返す
+// React Nativeでは、Flexboxの考えが通常と逆で
+// justifyContent が縦方向の配置、alignItems が横方向の配置を調整.
+// flexDirection: "row" が横並び、 flexDirection: "column" が縦並びで
+// flexDirection はデフォルトで column になっている
+// flexDireciton: "row" にすると横並びになり、
+// justifyContent が横方向の配置、alignItems が縦方向の配置を調整するので注意！！！
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        justifyContent: "center",
-        alignItems: "center"
+        backgroundColor: "#fff"
     }
 })
 
