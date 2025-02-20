@@ -48,6 +48,7 @@ const Create = () => {
                     style={styles.input}
                     onChangeText={(text) => { setBodyText(text) }}
                     autoCapitalize="none"
+                    autoFocus
                 />
             </View>
             <CircleButton onPress={() => { handlePress(bodyText) }}>
