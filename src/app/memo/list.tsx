@@ -1,10 +1,13 @@
-import { View, StyleSheet } from "react-native"
+import { View, StyleSheet, FlatList } from "react-native"
 import MemoListItem from "../../components/MemoListItem"
 import CircleButton from "../../components/CircleButton"
 import Icon from "../../components/Icon"
 import { router, useNavigation } from "expo-router"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import LogOutButton from "../../components/LogOutButton"
+import { collection, onSnapshot, orderBy, query } from "firebase/firestore"
+import { db, auth } from "../../config"
+import { type Memo } from "../../../types/memo"
 
 const handlePress = (): void => {
     // メモ作成画面へ遷移
@@ -12,6 +15,7 @@ const handlePress = (): void => {
 }
 
 const List = () => {
+    const [memos, setMemos] = useState<Memo[]>([])
     const navigation = useNavigation()
     useEffect(() => {
         navigation.setOptions({
@@ -19,13 +23,34 @@ const List = () => {
         })
     }, [])
 
+    useEffect(() => {
+        if (auth.currentUser === null) { return }
+        const ref = collection(db, `users/${auth.currentUser.uid}/memos`)
+        const q = query(ref, orderBy("updatedAt", "desc"))
+        // onSnapshot() はデータベースの変更をリアルタイムで監視するため
+        // 画面が消えた後も監視を続けるため、戻り値として監視を解除する関数を返す
+        const unsubscribe = onSnapshot(q, (snapshot) => {
+            const memoList: Memo[] = []
+            snapshot.forEach((doc) => {
+                // console.log(doc.id, " => ", doc.data())
+                const { bodyText, updatedAt } = doc.data()
+                memoList.push({
+                    id: doc.id,
+                    bodyText,
+                    updatedAt
+                })
+            })
+            setMemos(memoList)
+        })
+        return unsubscribe
+    }, [])
+
     return (
         <View style={styles.container}>
-            <View>
-                <MemoListItem />
-                <MemoListItem />
-                <MemoListItem />
-            </View>
+            <FlatList
+                data={memos}
+                renderItem={({ item }) => <MemoListItem memo={item} />}
+            />
             <CircleButton onPress={handlePress}>
                 <Icon name="plus" size={40} color="#fff" />
             </CircleButton>
