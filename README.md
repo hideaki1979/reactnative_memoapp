@@ -1,6 +1,8 @@
-# メモアプリ（React Nativeで作成）
+# 【Udemy講座】メモアプリ（React Nativeで作成）
 
 ## 概要
+
+※本アプリはUdemy講座で作成したアプリです。
 
 React Native（TypeScript）で作成したメモアプリです。
 メモの作成・編集・削除・一覧表示などの基本的な機能に加え、
